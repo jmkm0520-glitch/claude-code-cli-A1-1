@@ -1,6 +1,25 @@
 CATEGORIES = ["텍스트 생성", "이미지 생성", "영상 생성", "페르소나", "자동화", "기타"]
 
-prompts = []
+prompts = [
+    {
+        "title": "회의록 요약",
+        "content": "회의 내용을 핵심 요약, 결정사항, 담당자, 일정으로 정리해 주세요.",
+        "category": "텍스트 생성",
+        "favorite": True
+    },
+    {
+        "title": "AI 뉴스 요약",
+        "content": "AI 또는 IT 관련 뉴스를 한국어 3줄 이내로 요약해 주세요.",
+        "category": "자동화",
+        "favorite": False
+    },
+    {
+        "title": "광고 영상 생성",
+        "content": "30초 분량의 제품 광고 영상 스토리보드와 내레이션을 작성해 주세요.",
+        "category": "영상 생성",
+        "favorite": True
+    }
+]
 
 
 def show_menu():
