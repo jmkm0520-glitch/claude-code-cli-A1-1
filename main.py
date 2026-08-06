@@ -36,157 +36,38 @@ def show_menu():
 
 
 def add_prompt(prompts):
-    print("\n=== 프롬프트 추가 ===")
-
-    title = input("제목: ").strip()
-    while not title:
-        title = input("제목을 입력해주세요: ").strip()
-
-    content = input("내용: ").strip()
-    while not content:
-        content = input("내용을 입력해주세요: ").strip()
-
-    print("\n카테고리 선택:")
-    for i, category in enumerate(CATEGORIES, 1):
-        print(f"{i}) {category}")
-    print(f"{len(CATEGORIES) + 1}) 직접 입력")
-
-    category_input = input("선택: ").strip()
-    if category_input.isdigit() and 1 <= int(category_input) <= len(CATEGORIES):
-        category = CATEGORIES[int(category_input) - 1]
-    else:
-        category = input("카테고리 직접 입력: ").strip()
-        while not category:
-            category = input("카테고리를 입력해주세요: ").strip()
-
-    prompts.append({
-        "title": title,
-        "content": content,
-        "category": category,
-        "favorite": False
-    })
-
-    print("\n프롬프트가 추가되었습니다!")
+    # TODO(5-1): 제목/내용/카테고리 입력, 빈 값 검증, 카테고리 선택/직접입력, favorite=False로 추가
+    print("(프롬프트 추가 기능은 구현 예정입니다)")
 
 
 def show_list(prompts):
-    print("\n=== 프롬프트 목록 ===")
-
-    if not prompts:
-        print("등록된 프롬프트가 없습니다.")
-        return
-
-    for i, prompt in enumerate(prompts, 1):
-        star = " ⭐" if prompt["favorite"] else ""
-        print(f"{i}. [{prompt['category']}] {prompt['title']}{star}")
-
-    print(f"\n총 {len(prompts)}개의 프롬프트")
+    # TODO(5-2): 번호와 함께 제목/카테고리/즐겨찾기(⭐) 출력, 없으면 안내 메시지
+    print("(프롬프트 목록 기능은 구현 예정입니다)")
 
 
 def show_by_category(prompts):
-    print("\n=== 카테고리별 조회 ===")
-    for i, category in enumerate(CATEGORIES, 1):
-        print(f"{i}) {category}")
-
-    choice = input("선택: ").strip()
-    if not (choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES)):
-        print("잘못된 번호입니다.")
-        return
-
-    selected = CATEGORIES[int(choice) - 1]
-    filtered = [p for p in prompts if p["category"] == selected]
-
-    print(f"\n[{selected}] 카테고리 프롬프트:")
-    if not filtered:
-        print("해당 카테고리에 프롬프트가 없습니다.")
-        return
-
-    for i, prompt in enumerate(filtered, 1):
-        star = " ⭐" if prompt["favorite"] else ""
-        print(f"{i}. {prompt['title']}{star}")
-
-    print(f"\n총 {len(filtered)}개의 프롬프트")
+    # TODO(5-3): 카테고리 목록 출력 후 선택한 카테고리만 필터링해서 출력
+    print("(카테고리별 조회 기능은 구현 예정입니다)")
 
 
 def search_prompt(prompts):
-    print("\n=== 프롬프트 검색 ===")
-    keyword = input("검색어: ").strip()
-
-    results = [
-        p for p in prompts
-        if keyword.lower() in p["title"].lower() or keyword.lower() in p["content"].lower()
-    ]
-
-    print("\n검색 결과:")
-    if not results:
-        print("검색 결과가 없습니다.")
-        return
-
-    for i, prompt in enumerate(results, 1):
-        star = " ⭐" if prompt["favorite"] else ""
-        print(f"{i}. [{prompt['category']}] {prompt['title']}{star}")
-
-    print(f"\n{len(results)}개의 프롬프트를 찾았습니다.")
+    # TODO(5-4): 키워드 입력받아 제목/내용에 포함된 프롬프트 검색
+    print("(프롬프트 검색 기능은 구현 예정입니다)")
 
 
 def show_detail(prompts):
-    print("\n=== 프롬프트 상세 보기 ===")
-
-    if not prompts:
-        print("등록된 프롬프트가 없습니다.")
-        return
-
-    choice = input("번호 입력: ").strip()
-    if not (choice.isdigit() and 1 <= int(choice) <= len(prompts)):
-        print("잘못된 번호입니다.")
-        return
-
-    prompt = prompts[int(choice) - 1]
-    star = "⭐" if prompt["favorite"] else "즐겨찾기 안 함"
-
-    print("\n" + "─" * 30)
-    print(f"제목: {prompt['title']}")
-    print(f"카테고리: {prompt['category']}")
-    print(f"즐겨찾기: {star}")
-    print("─" * 30)
-    print("내용:")
-    print(prompt["content"])
-    print("─" * 30)
+    # TODO(5-5): 번호 입력받아 해당 프롬프트 전체 내용 출력, 잘못된 번호 처리
+    print("(프롬프트 상세 보기 기능은 구현 예정입니다)")
 
 
 def toggle_favorite(prompts):
-    print("\n=== 즐겨찾기 관리 ===")
-
-    if not prompts:
-        print("등록된 프롬프트가 없습니다.")
-        return
-
-    choice = input("프롬프트 번호 입력: ").strip()
-    if not (choice.isdigit() and 1 <= int(choice) <= len(prompts)):
-        print("잘못된 번호입니다.")
-        return
-
-    prompt = prompts[int(choice) - 1]
-    prompt["favorite"] = not prompt["favorite"]
-
-    if prompt["favorite"]:
-        print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에 추가했습니다!")
-    else:
-        print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에서 해제했습니다!")
+    # TODO(5-6): 번호 입력받아 즐겨찾기 여부 토글
+    print("(즐겨찾기 관리 기능은 구현 예정입니다)")
 
 
 def show_favorites(prompts):
-    print("\n=== 즐겨찾기 목록 ===")
-
-    favorites = [p for p in prompts if p["favorite"]]
-    if not favorites:
-        print("즐겨찾기한 프롬프트가 없습니다.")
-        return
-
-    for i, prompt in enumerate(favorites, 1):
-        print(f"{i}. [{prompt['category']}] {prompt['title']} ⭐")
-
-    print(f"\n총 {len(favorites)}개의 즐겨찾기")
+    # TODO(5-6): 즐겨찾기된 프롬프트만 모아서 출력
+    print("(즐겨찾기 목록 기능은 구현 예정입니다)")
 
 
 def main():
