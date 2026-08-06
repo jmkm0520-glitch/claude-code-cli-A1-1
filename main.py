@@ -36,7 +36,37 @@ def show_menu():
 
 
 def add_prompt(prompts):
-    print("(프롬프트 추가 기능은 구현 예정입니다)")
+    print("\n=== 프롬프트 추가 ===")
+
+    title = input("제목: ").strip()
+    while not title:
+        title = input("제목을 입력해주세요: ").strip()
+
+    content = input("내용: ").strip()
+    while not content:
+        content = input("내용을 입력해주세요: ").strip()
+
+    print("\n카테고리 선택:")
+    for i, category in enumerate(CATEGORIES, 1):
+        print(f"{i}) {category}")
+    print(f"{len(CATEGORIES) + 1}) 직접 입력")
+
+    category_input = input("선택: ").strip()
+    if category_input.isdigit() and 1 <= int(category_input) <= len(CATEGORIES):
+        category = CATEGORIES[int(category_input) - 1]
+    else:
+        category = input("카테고리 직접 입력: ").strip()
+        while not category:
+            category = input("카테고리를 입력해주세요: ").strip()
+
+    prompts.append({
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False
+    })
+
+    print("\n프롬프트가 추가되었습니다!")
 
 
 def show_list(prompts):
