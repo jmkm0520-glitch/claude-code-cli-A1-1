@@ -279,3 +279,34 @@ not number.isdigit()                     # False (숫자이므로)
 not (1 <= int(number) <= len(prompts))   # 범위 안이면 False
 # 둘 다 False이므로 전체 조건은 False → "잘못된 번호"가 아님
 ```
+
+# 5-6에서 배운 개념
+
+`toggle_favorite()`과 `show_favorites()`는 [[5-5에서 배운 개념]]의 단락 평가, [[5-3에서 배운 개념]]의 리스트 컴프리헨션, [[5-2에서 배운 개념]]의 조건부 표현식·조기 반환을 모두 재사용합니다. 새로 등장한 개념은 **토글(현재 값을 `not`으로 뒤집기)** 패턴입니다.
+
+## 토글(toggle) — 값을 현재 상태의 반대로 뒤집기
+
+전등 스위치처럼, 누를 때마다 켜짐↔꺼짐이 반복되는 동작입니다.
+
+```python
+p["favorite"] = not p["favorite"]
+```
+
+오른쪽의 `p["favorite"]`(현재 값)를 먼저 읽고, `not`으로 뒤집은 다음, 그 결과를 다시 왼쪽의 `p["favorite"]`에 저장합니다.
+
+| 실행 전 `p["favorite"]` | `not p["favorite"]` | 실행 후 `p["favorite"]` |
+|---|---|---|
+| `True` | `False` | `False` |
+| `False` | `True` | `True` |
+
+즉 `if`문으로 "참이면 거짓으로, 거짓이면 참으로" 바꾸는 걸 한 줄로 압축한 것과 같습니다.
+
+```python
+# 풀어서 쓰면 (같은 동작)
+if p["favorite"]:
+    p["favorite"] = False
+else:
+    p["favorite"] = True
+```
+
+`toggle_favorite()`을 호출할 때마다 이 한 줄이 실행되기 때문에, 같은 번호를 두 번 고르면 등록 → 해제로, 세 번 고르면 다시 해제 → 등록으로 계속 반전됩니다.
