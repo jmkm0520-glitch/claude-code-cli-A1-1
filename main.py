@@ -140,13 +140,27 @@ def show_detail(prompts):
 
 
 def toggle_favorite(prompts):
-    # TODO(5-6): 번호 입력받아 즐겨찾기 여부 토글
-    print("(즐겨찾기 관리 기능은 구현 예정입니다)")
+    show_list(prompts)
+    number = input("즐겨찾기 토글할 번호: ").strip()
+
+    if not number.isdigit() or not (1 <= int(number) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+
+    p = prompts[int(number) - 1]
+    p["favorite"] = not p["favorite"]
+    status = "등록" if p["favorite"] else "해제"
+    print(f"'{p['title']}' 즐겨찾기 {status}되었습니다.")
 
 
 def show_favorites(prompts):
-    # TODO(5-6): 즐겨찾기된 프롬프트만 모아서 출력
-    print("(즐겨찾기 목록 기능은 구현 예정입니다)")
+    favorites = [p for p in prompts if p["favorite"]]
+    if not favorites:
+        print("즐겨찾기한 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(favorites, start=1):
+        print(f"{i}. {p['title']} [{p['category']}] ⭐")
 
 
 def main():
