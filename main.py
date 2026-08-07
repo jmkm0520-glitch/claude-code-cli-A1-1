@@ -71,8 +71,13 @@ def add_prompt(prompts):
 
 
 def show_list(prompts):
-    # TODO(5-2): 번호와 함께 제목/카테고리/즐겨찾기(⭐) 출력, 없으면 안내 메시지
-    print("(프롬프트 목록 기능은 구현 예정입니다)")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(prompts, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']} [{p['category']}] {star}")
 
 
 def show_by_category(prompts):
