@@ -124,8 +124,19 @@ def search_prompt(prompts):
 
 
 def show_detail(prompts):
-    # TODO(5-5): 번호 입력받아 해당 프롬프트 전체 내용 출력, 잘못된 번호 처리
-    print("(프롬프트 상세 보기 기능은 구현 예정입니다)")
+    show_list(prompts)
+    number = input("상세히 볼 번호: ").strip()
+
+    if not number.isdigit() or not (1 <= int(number) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+
+    p = prompts[int(number) - 1]
+    star = "⭐" if p["favorite"] else ""
+    print(f"제목: {p['title']}")
+    print(f"카테고리: {p['category']}")
+    print(f"즐겨찾기: {star}")
+    print(f"내용: {p['content']}")
 
 
 def toggle_favorite(prompts):
