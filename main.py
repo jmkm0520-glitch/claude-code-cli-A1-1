@@ -106,8 +106,21 @@ def show_by_category(prompts):
 
 
 def search_prompt(prompts):
-    # TODO(5-4): 키워드 입력받아 제목/내용에 포함된 프롬프트 검색
-    print("(프롬프트 검색 기능은 구현 예정입니다)")
+    keyword = input("검색어: ").strip()
+    while not keyword:
+        keyword = input("검색어를 입력해 주세요: ").strip()
+
+    result = [
+        p for p in prompts
+        if keyword in p["title"] or keyword in p["content"]
+    ]
+    if not result:
+        print("검색 결과가 없습니다.")
+        return
+
+    for i, p in enumerate(result, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']} [{p['category']}] {star}")
 
 
 def show_detail(prompts):
