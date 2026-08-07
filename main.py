@@ -81,8 +81,28 @@ def show_list(prompts):
 
 
 def show_by_category(prompts):
-    # TODO(5-3): 카테고리 목록 출력 후 선택한 카테고리만 필터링해서 출력
-    print("(카테고리별 조회 기능은 구현 예정입니다)")
+    print("카테고리를 선택하세요:")
+    for i, c in enumerate(CATEGORIES, start=1):
+        print(f"{i}. {c}")
+
+    category = ""
+    while not category:
+        choice = input("선택: ").strip()
+        if choice.isdigit():
+            choice_num = int(choice)
+            if 1 <= choice_num <= len(CATEGORIES):
+                category = CATEGORIES[choice_num - 1]
+        if not category:
+            print("잘못된 입력입니다. 다시 선택해 주세요.")
+
+    filtered = [p for p in prompts if p["category"] == category]
+    if not filtered:
+        print("해당 카테고리에 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(filtered, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']} {star}")
 
 
 def search_prompt(prompts):
