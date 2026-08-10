@@ -4,6 +4,7 @@ import os
 CATEGORIES = ["텍스트 생성", "이미지 생성", "영상 생성", "페르소나", "자동화", "기타"]
 DATA_FILE = "prompts.json"
 EXPORT_DIR = "exports"
+TOP_N = 5
 
 prompts = [
     {
@@ -45,6 +46,7 @@ def show_menu():
     print("10. 카테고리별 Markdown 내보내기")
     print("11. 프롬프트 수정")
     print("12. 프롬프트 삭제")
+    print("13. 조회수 Top 목록")
     print("0. 종료")
     return input("선택: ").strip()
 
@@ -293,6 +295,21 @@ def delete_prompt(prompts):
     print(f"'{p['title']}' 프롬프트가 삭제되었습니다.")
 
 
+# 조회수가 높은 순으로 정렬해 상위 프롬프트 목록을 출력한다
+def show_top_viewed(prompts):
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    sorted_prompts = sorted(prompts, key=lambda p: p.get("views", 0), reverse=True)
+    top_prompts = sorted_prompts[:TOP_N]
+
+    print(f"=== 조회수 Top {len(top_prompts)} ===")
+    for i, p in enumerate(top_prompts, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']} [{p['category']}] 조회수 {p.get('views', 0)} {star}")
+
+
 # 메뉴 선택을 반복 입력받아 각 기능 함수로 분기한다
 def main():
     while True:
@@ -322,6 +339,8 @@ def main():
             edit_prompt(prompts)
         elif choice == "12":
             delete_prompt(prompts)
+        elif choice == "13":
+            show_top_viewed(prompts)
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
