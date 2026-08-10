@@ -1,4 +1,8 @@
+import json
+import os
+
 CATEGORIES = ["텍스트 생성", "이미지 생성", "영상 생성", "페르소나", "자동화", "기타"]
+DATA_FILE = "prompts.json"
 
 prompts = [
     {
@@ -32,6 +36,8 @@ def show_menu():
     print("5. 프롬프트 상세 보기")
     print("6. 즐겨찾기 관리")
     print("7. 즐겨찾기 목록")
+    print("8. JSON 파일로 저장")
+    print("9. JSON 파일에서 불러오기")
     print("0. 종료")
     return input("선택: ").strip()
 
@@ -171,6 +177,27 @@ def show_favorites(prompts):
         print(f"{i}. {p['title']} [{p['category']}] ⭐")
 
 
+# 현재 프롬프트 목록을 JSON 파일로 저장한다
+def save_prompts(prompts, filename=DATA_FILE):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(prompts, f, ensure_ascii=False, indent=2)
+    print(f"'{filename}' 파일에 저장되었습니다.")
+
+
+# JSON 파일에서 프롬프트 목록을 불러와 현재 목록을 교체한다
+def load_prompts(prompts, filename=DATA_FILE):
+    if not os.path.exists(filename):
+        print(f"'{filename}' 파일이 없습니다.")
+        return
+
+    with open(filename, "r", encoding="utf-8") as f:
+        loaded = json.load(f)
+
+    prompts.clear()
+    prompts.extend(loaded)
+    print(f"'{filename}' 파일에서 불러왔습니다.")
+
+
 # 메뉴 선택을 반복 입력받아 각 기능 함수로 분기한다
 def main():
     while True:
@@ -190,6 +217,10 @@ def main():
             toggle_favorite(prompts)
         elif choice == "7":
             show_favorites(prompts)
+        elif choice == "8":
+            save_prompts(prompts)
+        elif choice == "9":
+            load_prompts(prompts)
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
