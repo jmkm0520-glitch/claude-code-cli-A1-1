@@ -40,6 +40,7 @@ def show_menu():
     print("8. JSON 파일로 저장")
     print("9. JSON 파일에서 불러오기")
     print("10. 카테고리별 Markdown 내보내기")
+    print("11. 프롬프트 수정")
     print("0. 종료")
     return input("선택: ").strip()
 
@@ -225,6 +226,43 @@ def export_markdown(prompts, export_dir=EXPORT_DIR):
     print(f"{len(grouped)}개 카테고리를 '{export_dir}' 폴더에 Markdown 파일로 내보냈습니다.")
 
 
+# 번호를 입력받아 해당 프롬프트의 제목/내용/카테고리를 수정한다
+def edit_prompt(prompts):
+    show_list(prompts)
+    number = input("수정할 번호: ").strip()
+
+    if not number.isdigit() or not (1 <= int(number) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+
+    p = prompts[int(number) - 1]
+
+    title = input(f"제목 (현재: {p['title']}, 비워두면 유지): ").strip()
+    if title:
+        p["title"] = title
+
+    content = input(f"내용 (현재: {p['content']}, 비워두면 유지): ").strip()
+    if content:
+        p["content"] = content
+
+    print(f"카테고리 (현재: {p['category']}, 비워두면 유지)")
+    for i, c in enumerate(CATEGORIES, start=1):
+        print(f"{i}. {c}")
+    print(f"{len(CATEGORIES) + 1}. 직접 입력")
+
+    choice = input("선택: ").strip()
+    if choice.isdigit():
+        choice_num = int(choice)
+        if 1 <= choice_num <= len(CATEGORIES):
+            p["category"] = CATEGORIES[choice_num - 1]
+        elif choice_num == len(CATEGORIES) + 1:
+            new_category = input("카테고리 이름을 입력해 주세요: ").strip()
+            if new_category:
+                p["category"] = new_category
+
+    print(f"'{p['title']}' 프롬프트가 수정되었습니다.")
+
+
 # 메뉴 선택을 반복 입력받아 각 기능 함수로 분기한다
 def main():
     while True:
@@ -250,6 +288,8 @@ def main():
             load_prompts(prompts)
         elif choice == "10":
             export_markdown(prompts)
+        elif choice == "11":
+            edit_prompt(prompts)
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
