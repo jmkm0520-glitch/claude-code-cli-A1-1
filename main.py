@@ -3,6 +3,7 @@ import os
 
 CATEGORIES = ["텍스트 생성", "이미지 생성", "영상 생성", "페르소나", "자동화", "기타"]
 DATA_FILE = "prompts.json"
+EXPORT_DIR = "exports"
 
 prompts = [
     {
@@ -38,6 +39,7 @@ def show_menu():
     print("7. 즐겨찾기 목록")
     print("8. JSON 파일로 저장")
     print("9. JSON 파일에서 불러오기")
+    print("10. 카테고리별 Markdown 내보내기")
     print("0. 종료")
     return input("선택: ").strip()
 
@@ -198,6 +200,31 @@ def load_prompts(prompts, filename=DATA_FILE):
     print(f"'{filename}' 파일에서 불러왔습니다.")
 
 
+# 카테고리별로 프롬프트를 묶어 각각 Markdown 파일로 내보낸다
+def export_markdown(prompts, export_dir=EXPORT_DIR):
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    grouped = {}
+    for p in prompts:
+        grouped.setdefault(p["category"], []).append(p)
+
+    os.makedirs(export_dir, exist_ok=True)
+
+    for category, items in grouped.items():
+        safe_name = category.replace("/", "_")
+        filename = os.path.join(export_dir, f"{safe_name}.md")
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(f"# {category}\n\n")
+            for p in items:
+                star = " ⭐" if p["favorite"] else ""
+                f.write(f"## {p['title']}{star}\n\n")
+                f.write(f"{p['content']}\n\n")
+
+    print(f"{len(grouped)}개 카테고리를 '{export_dir}' 폴더에 Markdown 파일로 내보냈습니다.")
+
+
 # 메뉴 선택을 반복 입력받아 각 기능 함수로 분기한다
 def main():
     while True:
@@ -221,6 +248,8 @@ def main():
             save_prompts(prompts)
         elif choice == "9":
             load_prompts(prompts)
+        elif choice == "10":
+            export_markdown(prompts)
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
