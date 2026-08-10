@@ -41,6 +41,7 @@ def show_menu():
     print("9. JSON 파일에서 불러오기")
     print("10. 카테고리별 Markdown 내보내기")
     print("11. 프롬프트 수정")
+    print("12. 프롬프트 삭제")
     print("0. 종료")
     return input("선택: ").strip()
 
@@ -263,6 +264,28 @@ def edit_prompt(prompts):
     print(f"'{p['title']}' 프롬프트가 수정되었습니다.")
 
 
+# 번호를 입력받아 해당 프롬프트를 확인 후 삭제한다
+def delete_prompt(prompts):
+    show_list(prompts)
+    if not prompts:
+        return
+
+    number = input("삭제할 번호: ").strip()
+
+    if not number.isdigit() or not (1 <= int(number) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+
+    p = prompts[int(number) - 1]
+    confirm = input(f"'{p['title']}' 프롬프트를 삭제하시겠습니까? (y/n): ").strip().lower()
+    if confirm != "y":
+        print("삭제가 취소되었습니다.")
+        return
+
+    prompts.pop(int(number) - 1)
+    print(f"'{p['title']}' 프롬프트가 삭제되었습니다.")
+
+
 # 메뉴 선택을 반복 입력받아 각 기능 함수로 분기한다
 def main():
     while True:
@@ -290,6 +313,8 @@ def main():
             export_markdown(prompts)
         elif choice == "11":
             edit_prompt(prompts)
+        elif choice == "12":
+            delete_prompt(prompts)
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
