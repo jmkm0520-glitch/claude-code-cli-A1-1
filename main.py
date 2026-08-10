@@ -10,19 +10,22 @@ prompts = [
         "title": "회의록 요약",
         "content": "회의 내용을 핵심 요약, 결정사항, 담당자, 일정으로 정리해 주세요.",
         "category": "텍스트 생성",
-        "favorite": True
+        "favorite": True,
+        "views": 0
     },
     {
         "title": "AI 뉴스 요약",
         "content": "AI 또는 IT 관련 뉴스를 한국어 3줄 이내로 요약해 주세요.",
         "category": "자동화",
-        "favorite": False
+        "favorite": False,
+        "views": 0
     },
     {
         "title": "광고 영상 생성",
         "content": "30초 분량의 제품 광고 영상 스토리보드와 내레이션을 작성해 주세요.",
         "category": "영상 생성",
-        "favorite": True
+        "favorite": True,
+        "views": 0
     }
 ]
 
@@ -77,7 +80,8 @@ def add_prompt(prompts):
         "title": title,
         "content": content,
         "category": category,
-        "favorite": False
+        "favorite": False,
+        "views": 0
     })
     print("프롬프트가 추가되었습니다.")
 
@@ -148,10 +152,13 @@ def show_detail(prompts):
         return
 
     p = prompts[int(number) - 1]
+    p["views"] = p.get("views", 0) + 1
+
     star = "⭐" if p["favorite"] else ""
     print(f"제목: {p['title']}")
     print(f"카테고리: {p['category']}")
     print(f"즐겨찾기: {star}")
+    print(f"조회수: {p['views']}")
     print(f"내용: {p['content']}")
 
 
